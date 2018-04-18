@@ -1,0 +1,33 @@
+#1 
+ set.seed(1) 
+ x <- sort(rnorm(100)) 
+ y <- 3 + x^2 + rnorm(100)
+
+ 
+
+ #2,3 
+ library(FNN) 
+ eval.n = 100 
+ eval.point = seq(-3,3,length = eval.n) 
+ fantasticdata <- rep(0,100) 
+ par(mfrow = c(length(fantasticdata),1), bg = 'gray50', col = 'white', col.main = 'lightblue', col.axis = 'yellow', col.lab = 'lightgreen')
+ for(j in 1:length(fantasticdata)){
+   idx.mat <- knnx.index(x,eval.point,k = j) 
+   yhat <- rep(0,eval.n) 
+   for(i in 1:eval.n){
+      yhat[i] <- mean(y[idx.mat[i,]]) 
+      fantasticdata[j] <- fantasticdata[j] + (y[i]-yhat[i])^2 
+      }
+   plot(x,y,pch = 20)
+   lines(eval.n, yhat,lty = 2,col = j)
+   } 
+ 
+
+ #4 
+ plot(1 : length(fantasticdata), fantasticdata, pch = 20) 
+ 
+
+
+ #5 
+ fantasticdataf <- factor(fantasticdata)
+ factor(which.min(fantasticdataf)) 
